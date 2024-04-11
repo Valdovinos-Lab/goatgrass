@@ -62,16 +62,16 @@ sigma2=sigma;
 sigma2(:,indRemA)=NaN;
 sigma2(indRemP,:)=NaN;
 sigma2(sigma2==0)=NaN;% Making zeros equal to NaN
-meansigma_perP = nanmean(sigma2,2); % visitation quality averaged over each plant species
+meansigma_perP = mean(sigma2,2, 'omitnan'); % visitation quality averaged over each plant species
                                               % CALCULATED OVER THE NON-ZERO ELEMENTS!!!
-meansigma_perA = nanmean(sigma2)'; % visitation quality averaged over each pollinator species
+meansigma_perA = mean(sigma2, 'omitnan')'; % visitation quality averaged over each pollinator species
 [maxsigma_perP, idA_maxsigma] = max(sigma,[],2);
 
 % Excluding removed species from the pollination-events matrix by making their cols and rows NaN
 pol_event = sigma .* Visits_perP ; % Matrix of pollination events per visit (includes animal abundance)
 pol_event(:,indRemA)=NaN;
 pol_event(indRemP,:)=NaN;
-sPolServ_perP= nansum(pol_event, 2);% sum of the pollination services to plant species i per plant (includes animal abundance)
+sPolServ_perP= sum(pol_event, 2,'omitnan');% sum of the pollination services to plant species i per plant (includes animal abundance)
 sPolServ_perP(indRemP)=NaN;
 
 % Calculating pollination events per plant and animal species (double per-capita)
@@ -80,7 +80,7 @@ pol_event = sigma .* tmp ; % Matrix of pollination events per plant and animal s
 pol_event(:,indRemA)=NaN;
 pol_event(indRemP,:)=NaN;
 pol_event(pol_event==0)=NaN;% Making zeros equal to NaN
-mPolServ_perAbundWLink= nanmean(pol_event, 2);% mean pollination efficiency per-capita of plant and pollinator sp
+mPolServ_perAbundWLink= mean(pol_event, 2, 'omitnan');% mean pollination efficiency per-capita of plant and pollinator sp
                                               % CALCULATED OVER THE NON-ZERO ELEMENTS!!!
 mPolServ_perAbundWLink(indRemP)=NaN;
 
@@ -89,12 +89,12 @@ tmp = Alpha * diag(tau) ;
 N_extractij_perA = (diag(N) * tmp) .* b; % per-capita resource consumption of each pollinator species from each plant species
 N_extractij_perA(:,indRemA)=NaN;
 N_extractij_perA(indRemP,:)=NaN;
-sN_extractj_perA = nansum(N_extractij_perA)'; % sum of the resources that each individual extracts
+sN_extractj_perA = sum(N_extractij_perA, 'omitnan')'; % sum of the resources that each individual extracts
 sN_extractj_perA(indRemA)=NaN;
 
 N_extractij_perN = N_extractij_perA./ ( diag(N)*ones(length(N), length(a)) );
 N_extractij_perN(N_extractij_perN==0)=NaN; % Making zeros equal to NaN
-mN_extractj_perN = nanmean(N_extractij_perN); % mean of the resources that each individual animal extracts per unit of rewards
+mN_extractj_perN = mean(N_extractij_perN, 'omitnan'); % mean of the resources that each individual animal extracts per unit of rewards
                                               % CALCULATED OVER THE NON-ZERO ELEMENTS!
                                               
 Visits_perA = diag(p)* Alpha * diag(tau) ; % Per-capita for the animals!

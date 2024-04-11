@@ -84,5 +84,13 @@ dp(1) = ( ( Gamma(1) .* mean(nonzeros(seed_produced)) ) - mu_p(1)) .* p(1);
 %goatgrass does not produce nectar
 dN(1) = 0;
 
+%Regardless, right now the effect of goatgrass on
+%    Lasthenia via compatition for seed recruitment is set as 10 times higher
+%    than the strength of competition with any other plant species, and
+%    between any other pair of plant species. This can be easily changed by
+%    changing u_21=u(1)*10 to u_21=u(1)*1.
+
+% u(21) = u(1)*100 ;
+
 %% Now pack the answer
 dx = full([dp; dN; da; dAlpha(nz_pos)]) ;

@@ -23,6 +23,15 @@
 %    This variance chould be changed back to 0.1 if needed/desire. For
 %    example, when needing many replicates of the same type of simulations,
 %    to get means and standard deviations to compare treatments.
+% Another parameter to change to compare different scenarios of competition
+%    strenghts between Lasthenia and goatgrass is u_21, which I included in
+%    Valdovinos2013_rhs_goatgrass.m (i.e., direclty in the equations). I
+%    should probably polish this parameter choice and move it where all the
+%    parameters are. Regardless, right now the effect of goatgrass on
+%    Lasthenia via compatition for seed recruitment is set as 10 times higher
+%    than the strength of competition with any other plant species, and
+%    between any other pair of plant species. This can be easily changed by
+%    changing u_21=u(1)*10 to u_21=u(1)*1.
 % 7. Another parameter to change to compare different scenarios of mortality, 
 %    is determining muAP as 1, 2, 3, 4. Four differnt types of mortality
 %    scenarios I have characterized over the many years working with this model.
@@ -90,6 +99,11 @@ vectG=frG*ones(1,cols);
 % To get visits and other useful measurments
 [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP,...
     meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
+
+% Extract simulation output as .csv
+%writematrix(M_V, M_V.csv);
+
+%sprintf('M_V', 'default_u21_with_AETR', '.csv')
 
 % Plotting trajectories
 [plants, nectar, animals] = unpack2(y,network_metadata);
