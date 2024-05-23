@@ -67,23 +67,18 @@
 % which meant creating this function RunValdovinos2013_singleM_goatgrass.m,
 % IntegrateValdovinos2013_goatgrass.m, and Valdovinos2013_rhs_goatgrass.m
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Last modification 08/03/2019, Ann Arbor
+% Last Modification 08/03/2019, Ann Arbor
 % Cleaning up my codes
 % Only run the dynamics, without species invasions or removals
 % Runs the dynamics for only one matrix.
 % Outputs the whole time-series for any variable as well as final values
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% 5-23-24 updates: ran the simulation for each of the four scenarios of
-% mortality both with and without goatgrass in the system. Saved the
-% outputs of interest as .csv files. 
 
 
 global J_pattern network_metadata
 
 r_i=1;
 frG=1;
-muAP=3;
+muAP=1;
 sem=0;
 dataset=1200;
 
@@ -106,26 +101,22 @@ vectG=frG*ones(1,cols);
     meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
 
 % Extract plant simulation output as .csv
-%filename = 'plantsf4withoutGG.csv';
-%writematrix(plantsf, filename);
+filename = 'plantsf1withGG.csv';
+writematrix(plantsf, filename);
 
 % Extract pollinator simulation output as .csv
-%filename = 'animalsf4withoutGG.csv';
-%writematrix(animalsf, filename);
+filename = 'animalsf1withGG.csv';
+writematrix(animalsf, filename);
 
-%filename = 'sVisits_perP4withoutGG.csv';
-%writematrix(sVisits_perP, filename);
+filename = 'sVisits_perP1withGG.csv';
+writematrix(sVisits_perP, filename);
 
-%filename = 'sVisitsP4withoutGG.csv';
-%writematrix(sVisitsP, filename);
+filename = 'sVisitsP1withGG.csv';
+writematrix(sVisitsP, filename);
 
-%network matrix for network robustness;
-%filename = 'M_V4withoutGG.csv';
-%writematrix(M_V, filename);
+%writematrix(M_V, M_V.csv);
 
-%naming convention for files:
-%%name of response variable + Mortality Scenario # (1-4) + with vs without
-%%GG in the model 
+%sprintf('M_V', 'default_u21_with_AETR', '.csv')
 
 % Plotting trajectories
 [plants, nectar, animals] = unpack2(y,network_metadata);
