@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+≠%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Last Modification 08/03/2019, Ann Arbor
 % Cleaning up my codes
 % Only run the dynamics, without species invasions or removals
@@ -18,6 +18,7 @@ B=sparse(In);
 
 % Parameters of the uniform distribution from where the parameters of the
 % dynamic model are drawn:
+In=load('goatgrass.csv')
 
 varp=0;% variance of plant parameters. I'm changing this variance to 0 to
        % see more clearly the effects of the pollination network vs the

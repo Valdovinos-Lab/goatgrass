@@ -12,7 +12,7 @@
 % 4. To make the goatgrass' seed production similar to the other plants in
 %    the community (in absence of better information), it's assumed to be
 %    equal to that of the average plant of the network (all of which are assumed
-%    to be animal pollinated, determined by the plant-pollinator network).
+%    to be animal pollinated, determined by the plant-pollinator netwoloark).
 % 5. To remove goatgrass from the system, all what is needed is to set its
 %    initial abundance as zero in IntegrateValdovinos2013_goatgrass.m,
 %    by uncommenting line 85.
@@ -78,19 +78,27 @@
 % mortality both with and without goatgrass in the system. Saved the
 % outputs of interest as .csv files. 
 
+% 5-31-24 update: removed attempted empirical 'visits' to goatgrass from the .csv file
+% of input data. Reran the simulation for each of the four scenarios of
+% mortality both with and without goatgrass in the system. For Mortality
+% scenario 3 both with and without GG, also ran these with and without AF. 
+
 
 global J_pattern network_metadata
 
 r_i=1;
-frG=1;
+frG=0;
 muAP=3;
 sem=0;
 dataset=1200;
 
 rand('seed',sem+r_i);
-In=load('goatgrass.csv'); % Already sorted by degree
+In=load('goatgrass_network_full.csv'); % Already sorted by degree
 %load(sprintf('%dm.mat',dataset)); % Already sorted by degree
 %In=cell2mat(m1200(r_i));% change for every dataset!!!!    
+%goatgrass network full gives full network with goatgrass as all zeros.
+%goatgrass.csv gives goatgrass twice both with attempts visits and with
+%zeroz. 
 
 %In=[1 1;1 0];
 
@@ -106,26 +114,26 @@ vectG=frG*ones(1,cols);
     meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
 
 % Extract plant simulation output as .csv
-%filename = 'plantsf4withoutGG.csv';
+%filename = 'plantsf3withoutGGwithoutAF.csv';
 %writematrix(plantsf, filename);
 
 % Extract pollinator simulation output as .csv
-%filename = 'animalsf4withoutGG.csv';
+%filename = 'animalsf3withoutGGwithoutAF.csv';
 %writematrix(animalsf, filename);
 
-%filename = 'sVisits_perP4withoutGG.csv';
+%filename = 'sVisits_perP3withoutGGwithoutAF.csv';
 %writematrix(sVisits_perP, filename);
 
-%filename = 'sVisitsP4withoutGG.csv';
+%filename = 'sVisitsP3withoutGGwithtoutAF.csv';
 %writematrix(sVisitsP, filename);
 
 %network matrix for network robustness;
-%filename = 'M_V4withoutGG.csv';
+%filename = 'M_V3withoutGGwithoutAF.csv';
 %writematrix(M_V, filename);
 
 %naming convention for files:
 %%name of response variable + Mortality Scenario # (1-4) + with vs without
-%%GG in the model 
+%%GG in the model and with vs without AF 
 
 % Plotting trajectories
 [plants, nectar, animals] = unpack2(y,network_metadata);

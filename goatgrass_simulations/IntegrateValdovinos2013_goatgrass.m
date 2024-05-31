@@ -82,7 +82,7 @@ initial_nectar(1)=0;% reward abundance of goatgrass equal to zero.
 initial_animals=uniform_rand(0.1,vz,n,1);% mz=0.1 (initial animal densities equal 0.1)
 
 % To remove goatgrass uncomment the following line:
-% initial_plants(1)=0; %uncomment to remove goatgrass.
+ initial_plants(1)=0; %uncomment to remove goatgrass.
 
 initial_alphas=B;
 
