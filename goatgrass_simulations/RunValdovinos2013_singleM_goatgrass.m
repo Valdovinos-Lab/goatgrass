@@ -83,6 +83,9 @@
 % mortality both with and without goatgrass in the system. For Mortality
 % scenario 3 both with and without GG, also ran these with and without AF. 
 
+% 6-5-24 update: ran simulations for mortality scenarios 1-4 without and with
+% GG with and without AF. I also extracted sVisitsA as output. 
+
 
 global J_pattern network_metadata
 
@@ -114,21 +117,24 @@ vectG=frG*ones(1,cols);
     meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
 
 % Extract plant simulation output as .csv
-%filename = 'plantsf3withoutGGwithoutAF.csv';
+%filename = 'plantsf1withoutGGwithoutAF.csv';
 %writematrix(plantsf, filename);
 
 % Extract pollinator simulation output as .csv
-%filename = 'animalsf3withoutGGwithoutAF.csv';
+%filename = 'animalsf1withoutGGwithoutAF.csv';
 %writematrix(animalsf, filename);
 
-%filename = 'sVisits_perP3withoutGGwithoutAF.csv';
+%filename = 'sVisits_perP1withoutGGwithoutAF.csv';
 %writematrix(sVisits_perP, filename);
 
-%filename = 'sVisitsP3withoutGGwithtoutAF.csv';
+%filename = 'sVisitsP1withoutGGwithtoutAF.csv';
 %writematrix(sVisitsP, filename);
 
+%filename = 'sVisitsA3withoutGGwithoutAF.csv';
+%writematrix(sVisitsA, filename);
+
 %network matrix for network robustness;
-%filename = 'M_V3withoutGGwithoutAF.csv';
+%filename = 'M_V1withoutGGwithoutAF.csv';
 %writematrix(M_V, filename);
 
 %naming convention for files:
