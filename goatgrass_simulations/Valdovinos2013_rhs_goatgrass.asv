@@ -43,8 +43,8 @@ In      = network_metadata.In ;
 %N(indRemP)=0;
 %a(indRemA)=0;
 
-w = readmatrix('w_6_26_24.csv'); 
-
+csv_file = 'path_to_your_csv_file/w.csv';
+w_values = csvread(csv_file);
 
 %% Model's specific computation begins here
 

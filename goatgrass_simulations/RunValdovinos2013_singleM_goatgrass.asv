@@ -83,12 +83,26 @@
 % mortality both with and without goatgrass in the system. For Mortality
 % scenario 3 both with and without GG, also ran these with and without AF. 
 
+% 6-5-24 update: ran simulations for mortality scenarios 1-4 without and with
+% GG with and without AF. I also extracted sVisitsA as output. 
+
+%6-26-24 update: ran simulations with w values based on empirical cover
+%values for plant species. In this case, w is the inverse of the mean cover
+%for each plant species for all plots and years combined. In this current
+%version, w is thus inverse the mean cover for both the restored and
+%control plots combined. One unknown plant in the network is not identified to
+%species (UNK). For UNK, I took the mean of the w-values for all of the
+%other forbs in the network. On an initial run, plantsf abundances appear similar in
+%value to the empirical means. I then proceeded with running all of the
+%pervious mortality scenarios, AF, with and without goatgrass using these
+%empirically informed values for w. 
+
 
 global J_pattern network_metadata
 
 r_i=1;
 frG=0;
-muAP=1;
+muAP=4;
 sem=0;
 dataset=1200;
 
@@ -114,29 +128,33 @@ vectG=frG*ones(1,cols);
     meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
 
 % Extract plant simulation output as .csv
-filename = 'plantsf1withGGwithoutAF.csv';
+filename = 'plantsf4withGGwithoutAFwithw.csv';
 writematrix(plantsf, filename);
 
 % Extract pollinator simulation output as .csv
-filename = 'animalsf1withGGwithoutAF.csv';
+filename = 'animalsf4withGGwithoutAFwithw.csv';
 writematrix(animalsf, filename);
 
-filename = 'sVisits_perP1withGGwithoutAF.csv';
+filename = 'sVisits_perP3withGGwithoutAFwithw.csv';
 writematrix(sVisits_perP, filename);
 
-filename = 'sVisitsP1withGGwithtoutAF.csv';
+filename = 'sVisitsP3withGGwithoutAFwithw.csv';
 writematrix(sVisitsP, filename);
 
-filename = 'sVisitsA1withGGwithtoutAF.csv';
+filename = 'sVisitsA3withGGwithoutAFwithw.csv';
 writematrix(sVisitsA, filename);
 
-network matrix for network robustness;
-filename = 'M_V3withGGwithoutAF.csv';
-writematrix(M_V, filename);
+%network matrix for network robustness;
+%filename = 'M_V1withoutGGwithoutAF.csv';
+%writematrix(M_V, filename);
 
 %naming convention for files:
 %%name of response variable + Mortality Scenario # (1-4) + with vs without
-%%GG in the model and with vs without AF 
+%%GG in the model and with vs without AF
+% "with w" means that this is the output for empirically-informed w values
+% based on empirical plant abundances. If there is no meniton of with w in the
+% name, this means that the default abundance values from metanetwork data
+% were used. 
 
 % Plotting trajectories
 [plants, nectar, animals] = unpack2(y,network_metadata);
