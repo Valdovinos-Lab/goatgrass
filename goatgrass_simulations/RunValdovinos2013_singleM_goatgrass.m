@@ -97,35 +97,80 @@
 %pervious mortality scenarios, AF, with and without goatgrass using these
 %empirically informed values for w. 
 
+%8-20-24 update: ran with variance of plants set to .1 so that there can be
+%multiple replicates. created a for loop to run the simulation 500 times.
 
+%Global Variables & Setup
 global J_pattern network_metadata
 
+% Model Parameters 
 r_i=1;
 frG=1;
-muAP=1;
+muAP=3;
 sem=0;
 dataset=1200;
+numRuns = 500; % Number of simulation runs
 
-rand('seed',sem+r_i);
-In=load('goatgrass_network_full.csv'); % Already sorted by degree
+% Preallocate storage for results
+plantsf_all = zeros(20, numRuns); % 20 plant species, adjust size as needed
+sVisitsP_all = zeros(20, numRuns); % 20 plant specie
+sVisits_perP_all = zeros(20, numRuns); % 20 plant species
+
+animalsf_all = zeros(50, numRuns); % 50 animal species, adjust size as needed
+sVisitsA_all = zeros(50, numRuns); % 50 animal species
+sVisits_perA_all = zeros(50, numRuns); % 50 animal species
+
+% Simulation Loop
+for i = 1:numRuns
+    % Set random seed for reproducibility
+    rng(sem + i); % Modern MATLAB function for random seed
+    
+    % Load the data
+    In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
+    [plant_qty, animal_qty] = size(In);
+    
+    % Initialize J_pattern
+    J_pattern = J_zero_pattern(In);
+    
+    % Run Simulation
+    vectG = frG * ones(1, animal_qty);
+    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
+
+    % Calculate Metrics
+    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, network_metadata);
+
+    % Store Results
+    plantsf_all(:, i) = plantsf; % Adjust indexing based on actual dimensions
+    animalsf_all(:, i) = animalsf; % Adjust indexing based on actual dimensions
+    sVisits_perP_all(:, i) = sVisits_perP; % Adjust indexing based on actual dimensions
+    sVisits_perA_all(:, i) = sVisits_perA;
+    sVisitsA_all(:, i) = sVisitsA; % Adjust indexing based on actual dimensions
+    sVisitsP_all(:, i) = sVisitsP;
+
+%rand('seed',sem+r_i);
+%In=load('goatgrass_network_full.csv'); % Already sorted by degree
 %load(sprintf('%dm.mat',dataset)); % Already sorted by degree
 %In=cell2mat(m1200(r_i));% change for every dataset!!!!    
+
 %goatgrass network full gives full network with goatgrass as all zeros.
 %goatgrass.csv gives goatgrass twice both with attempts visits and with
 %zeroz. 
 
 %In=[1 1;1 0];
 
-[rows, cols]= size(In);
-J_pattern = J_zero_pattern(In) ;
-
-vectG=frG*ones(1,cols);
     
-[t, y, plantsf, nectarf, animalsf, alphasf]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP);
+   
+
+%[rows, cols]= size(In);
+%J_pattern = J_zero_pattern(In) ;
+
+%vectG=frG*ones(1,cols);
+    
+%[t, y, plantsf, nectarf, animalsf, alphasf]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP);
 
 % To get visits and other useful measurments
-[M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP,...
-    meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
+%[M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP,...
+ %   meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(alphasf,plantsf,animalsf,nectarf,network_metadata);
 
 % Extract plant simulation output as .csv
 %filename = 'plantsf1withoutGGwithAFwithw.csv';
@@ -159,11 +204,40 @@ vectG=frG*ones(1,cols);
 % Plotting trajectories
 [plants, nectar, animals] = unpack2(y,network_metadata);
 
-figure
-subplot (3,1,1)
-plot(t,plants)
-subplot (3,1,2)
-plot(t,nectar)
-subplot (3,1,3)
-plot(t,animals)
+%figure
+%subplot (3,1,1)
+%plot(t,plants)
+ %title('Plant Trajectories')
+%subplot (3,1,2)
+%plot(t,nectar)
+ %title('Nectar Trajectories')
+%subplot (3,1,3)
+%plot(t,animals)
+ %title('Animal Trajectories')
+end
+% Create Tables and Export to CSV
+plantsf_table = array2table(plantsf_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+animalsf_table = array2table(animalsf_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+sVisits_perP_table = array2table(sVisits_perP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+sVisits_perA_table = array2table(sVisits_perA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+sVisitsA_table = array2table(sVisitsA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+sVisitsP_table = array2table(sVisitsP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+
+% Save tables as CSV files
+% update name with either GG or noGG
+writetable(plantsf_table, 'plantsf_all_runs.GG.csv');
+writetable(animalsf_table, 'animalsf_all_runs.GG.csv');
+writetable(sVisits_perP_table, 'sVisits_perP_all_runs.GG.csv');
+writetable(sVisits_perA_table, 'sVisits_perA_all_runs.GG.csv');
+writetable(sVisitsA_table, 'sVisitsA_all_runs.GG.csv');
+writetable(sVisitsP_table, 'sVisitsP_all_runs.GG.csv');
+
+%to check order 
+%if i == 1
+ %   % Inspect initial data to verify species order
+  %  disp('First simulation plants:');
+   % disp(plantsf);
+    %disp('First simulation animals:');
+    %disp(animalsf);
+%end
 

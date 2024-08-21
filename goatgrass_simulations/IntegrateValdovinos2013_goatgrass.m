@@ -19,9 +19,12 @@ B=sparse(In);
 % Parameters of the uniform distribution from where the parameters of the
 % dynamic model are drawn:
 
-varp=0;% variance of plant parameters. I'm changing this variance to 0 to
+varp=0.1;% variance of plant parameters. I'm changing this variance to 0 to
        % see more clearly the effects of the pollination network vs the
        % effect of goatgrass on Lastenia.
+
+       % change to 0.1 to run simulations to get multiple replicates Summer
+       % 2024
 
 vara=0;% variance of animal parameters
 mC=0.2; vC=vara;
@@ -82,7 +85,7 @@ initial_nectar(1)=0;% reward abundance of goatgrass equal to zero.
 initial_animals=uniform_rand(0.1,vz,n,1);% mz=0.1 (initial animal densities equal 0.1)
 
 % To remove goatgrass uncomment the following line:
- initial_plants(1)=0; %uncomment to remove goatgrass.
+ %initial_plants(1)=0; %uncomment to remove goatgrass.
 
 initial_alphas=B;
 
