@@ -7,8 +7,10 @@
 % 1. Present: ggPA=1
 % 2. Absent: ggPA=1
 %-------------------------------------------------------------------------
-% Modification 04/11/2024, Davis
-% 
+% Modification 11/10/2023, Davis
+% Adaptation of pior code to the specific case of the serpentine
+% plant-pollinator system with goatgrass (first row)
+%
 % Modification 08/03/2019, Ann Arbor
 % Cleaning up my codes
 % Only run the dynamics, without species invasions or removals
@@ -91,6 +93,7 @@ vz=0; %making the variance among initial abundances zero
 
 initial_plants=uniform_rand(0.4,vz,m,1);% mz=0.4 (initial plant densities equal 0.4)
 initial_nectar=uniform_rand(0.4,vz,m,1);% mz=0.4 (initial reward densities equal 0.4)
+initial_plants(1)=0;% reward abundance of goatgrass equal to zero.
 initial_nectar(1)=0;% reward abundance of goatgrass equal to zero.
 initial_animals=uniform_rand(0.1,vz,n,1);% mz=0.1 (initial animal densities equal 0.1)
 

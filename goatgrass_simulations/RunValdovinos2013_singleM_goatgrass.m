@@ -1,5 +1,9 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Developer: Fernanda S. Valdovinos
+% Project: Goatgrass removal (Nelson et al 2024)
+% Rebecca Nelson run simulations.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Runs the Valdovinos et al's (2013) model for the goatgrass project
-
 % Modifications specific to the goatgrass project:
 % 1. The adjacency matrix used is the combined network (control + restored)
 %    of 50 pollinator and 20 plant species, sorted by degree from less to
@@ -108,7 +112,6 @@ r_i=1;
 frG=1;
 muAP=3;
 sem=0;
-dataset=1200;
 numRuns = 500; % Number of simulation runs
 
 % Preallocate storage for results
@@ -120,22 +123,24 @@ animalsf_all = zeros(50, numRuns); % 50 animal species, adjust size as needed
 sVisitsA_all = zeros(50, numRuns); % 50 animal species
 sVisits_perA_all = zeros(50, numRuns); % 50 animal species
 
+% Load the data
+In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
+[plant_qty, animal_qty] = size(In);
+
+% Initialize J_pattern
+J_pattern = J_zero_pattern(In);
+
+% Which pollinator exhibits adaptive foraging
+vectG = frG * ones(1, animal_qty);
+
 % Simulation Loop
 for i = 1:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
-    
-    % Load the data
-    In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
-    [plant_qty, animal_qty] = size(In);
-    
-    % Initialize J_pattern
-    J_pattern = J_zero_pattern(In);
-    
-    % Run Simulation
-    vectG = frG * ones(1, animal_qty);
-    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
 
+    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
+    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(vectG, In, muAP,plantsf, nectarf, animalsf, alphasf, 0);
+    
     % Calculate Metrics
     [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, network_metadata);
 
