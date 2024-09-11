@@ -1,12 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Last Modification 08/03/2019, Ann Arbor
+% Developer: Fernanda S. Valdovinos
+% Project: Goatgrass removal (Nelson et al 2024)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Last Modification 09/11/2024, Davis
+% Adding an input to the function indicating whether the goatgrass is:
+% 1. Present: ggPA=1
+% 2. Absent: ggPA=1
+%-------------------------------------------------------------------------
+% Modification 11/10/2023, Davis
+% Adaptation of pior code to the specific case of the serpentine
+% plant-pollinator system with goatgrass (first row)
+%
+% Modification 08/03/2019, Ann Arbor
 % Cleaning up my codes
 % Only run the dynamics, without species invasions or removals
 % Runs the dynamics for only one matrix.
 % Outputs the whole time-series for any variable as well as final values
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [t, y, plantsf, nectarf, animalsf, alphasf]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP)
+function [t, y, plantsf, nectarf, animalsf, alphasf]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP,ggPA)
 
 global network_metadata J_pattern
 tmax=3000;
