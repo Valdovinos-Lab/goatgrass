@@ -105,7 +105,7 @@
 %multiple replicates. created a for loop to run the simulation 500 times.
 
 %Global Variables & Setup
-global J_pattern network_metadata
+%global J_pattern network_metadata
 
 % Model Parameters 
 r_i=1;
@@ -134,15 +134,15 @@ J_pattern = J_zero_pattern(In);
 vectG = frG * ones(1, animal_qty);
 
 % Simulation Loop
-for i = 1:numRuns
+for i = 1%:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
 
-    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
-    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(vectG, In, muAP,plantsf, nectarf, animalsf, alphasf, 0);
+    [t, y, plantsf, nectarf, animalsf, alphasf, network_metadata] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP, J_pattern);
+    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, network_metadata, J_pattern, 0);
     
     % Calculate Metrics
-    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, network_metadata);
+    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, network_metadata);
 
     % Store Results
     plantsf_all(:, i) = plantsf; % Adjust indexing based on actual dimensions
@@ -207,7 +207,7 @@ for i = 1:numRuns
 % were used. 
 
 % Plotting trajectories
-[plants, nectar, animals] = unpack2(y,network_metadata);
+%[plants, nectar, animals] = unpack2(y,network_metadata);
 
 %figure
 %subplot (3,1,1)
@@ -220,22 +220,22 @@ for i = 1:numRuns
 %plot(t,animals)
  %title('Animal Trajectories')
 end
-% Create Tables and Export to CSV
-plantsf_table = array2table(plantsf_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-animalsf_table = array2table(animalsf_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-sVisits_perP_table = array2table(sVisits_perP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-sVisits_perA_table = array2table(sVisits_perA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-sVisitsA_table = array2table(sVisitsA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-sVisitsP_table = array2table(sVisitsP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-
-% Save tables as CSV files
-% update name with either GG or noGG
-writetable(plantsf_table, 'plantsf_all_runs.GG.csv');
-writetable(animalsf_table, 'animalsf_all_runs.GG.csv');
-writetable(sVisits_perP_table, 'sVisits_perP_all_runs.GG.csv');
-writetable(sVisits_perA_table, 'sVisits_perA_all_runs.GG.csv');
-writetable(sVisitsA_table, 'sVisitsA_all_runs.GG.csv');
-writetable(sVisitsP_table, 'sVisitsP_all_runs.GG.csv');
+% % Create Tables and Export to CSV
+% plantsf_table = array2table(plantsf_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+% animalsf_table = array2table(animalsf_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+% sVisits_perP_table = array2table(sVisits_perP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+% sVisits_perA_table = array2table(sVisits_perA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+% sVisitsA_table = array2table(sVisitsA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+% sVisitsP_table = array2table(sVisitsP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+% 
+% % Save tables as CSV files
+% % update name with either GG or noGG
+% writetable(plantsf_table, 'plantsf_all_runs.GG.csv');
+% writetable(animalsf_table, 'animalsf_all_runs.GG.csv');
+% writetable(sVisits_perP_table, 'sVisits_perP_all_runs.GG.csv');
+% writetable(sVisits_perA_table, 'sVisits_perA_all_runs.GG.csv');
+% writetable(sVisitsA_table, 'sVisitsA_all_runs.GG.csv');
+% writetable(sVisitsP_table, 'sVisitsP_all_runs.GG.csv');
 
 %to check order 
 %if i == 1
