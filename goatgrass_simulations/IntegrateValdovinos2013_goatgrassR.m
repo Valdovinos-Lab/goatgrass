@@ -5,7 +5,7 @@
 % Last Modification 09/11/2024, Davis
 % Adding an input to the function indicating whether the goatgrass is:
 % 1. Present: ggPA=1
-% 2. Absent: ggPA=1
+% 2. Absent: ggPA=0
 %-------------------------------------------------------------------------
 % Modification 11/10/2023, Davis
 % Adaptation of pior code to the specific case of the serpentine
@@ -18,9 +18,9 @@
 % Outputs the whole time-series for any variable as well as final values
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [t, y, plantsf2, nectarf2, animalsf2, alphasf2]=IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, network_metadata, J_pattern, ggPA)
+function [t, y, plantsf2, nectarf2, animalsf2, alphasf2]=IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, ggPA)
 
-%global network_metadata J_pattern
+global network_metadata J_pattern
 tmax=3000;
 %EUp=2e-2;
 %EUa=1e-3;

@@ -13,9 +13,9 @@
 % Outputs the whole time-series for any variable as well as final values
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [t, y, plantsf, nectarf, animalsf, alphasf, network_metadata]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP, J_pattern)
+function [t, y, plantsf, nectarf, animalsf, alphasf]=IntegrateValdovinos2013_goatgrass(vectG,In,muAP)
 
-%global network_metadata J_pattern
+global network_metadata J_pattern
 tmax=3000;
 %EUp=2e-2;
 %EUa=1e-3;

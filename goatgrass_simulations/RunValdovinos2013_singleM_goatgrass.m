@@ -105,7 +105,7 @@
 %multiple replicates. created a for loop to run the simulation 500 times.
 
 %Global Variables & Setup
-%global J_pattern network_metadata
+global J_pattern network_metadata
 
 % Model Parameters 
 r_i=1;
@@ -138,8 +138,8 @@ for i = 1%:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
 
-    [t, y, plantsf, nectarf, animalsf, alphasf, network_metadata] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP, J_pattern);
-    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, network_metadata, J_pattern, 0);
+    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
+    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, 0);
     
     % Calculate Metrics
     [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, network_metadata);
@@ -162,10 +162,6 @@ for i = 1%:numRuns
 %zeroz. 
 
 %In=[1 1;1 0];
-
-    
-   
-
 %[rows, cols]= size(In);
 %J_pattern = J_zero_pattern(In) ;
 

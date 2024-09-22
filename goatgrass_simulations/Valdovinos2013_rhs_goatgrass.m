@@ -19,8 +19,6 @@ function dx = Valdovinos2013_rhs_goatgrass(t,x)
 
 global network_metadata %indRemP indRemA
 
-m  = network_metadata.plant_qty ;
-n = network_metadata.animal_qty ;
 nz_pos  = network_metadata.nz_pos ;
 e       = network_metadata.e ;
 mu_p    = network_metadata.mu_p ;
