@@ -57,6 +57,7 @@ elseif muAP==4
     mmA=0.03; mmP=0.005; % high plant and animal mortality
 end
 
+
 % Parameters are drawn from uniform distribution (see Valdovinos et al.
 % 2013, Oikos for complete description of the model and
 % parameter definition)

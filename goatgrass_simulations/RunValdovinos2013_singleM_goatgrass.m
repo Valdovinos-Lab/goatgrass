@@ -104,6 +104,8 @@
 %8-20-24 update: ran with variance of plants set to .1 so that there can be
 %multiple replicates. created a for loop to run the simulation 500 times.
 
+%9-24-24 update: ran simulation with goatgrass removed scenario
+
 %Global Variables & Setup
 global J_pattern network_metadata
 
@@ -114,14 +116,6 @@ muAP=3;
 sem=0;
 numRuns = 500; % Number of simulation runs
 
-% Preallocate storage for results
-plantsf_all = zeros(20, numRuns); % 20 plant species, adjust size as needed
-sVisitsP_all = zeros(20, numRuns); % 20 plant specie
-sVisits_perP_all = zeros(20, numRuns); % 20 plant species
-
-animalsf_all = zeros(50, numRuns); % 50 animal species, adjust size as needed
-sVisitsA_all = zeros(50, numRuns); % 50 animal species
-sVisits_perA_all = zeros(50, numRuns); % 50 animal species
 
 % Load the data
 In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
@@ -133,8 +127,23 @@ J_pattern = J_zero_pattern(In);
 % Which pollinator exhibits adaptive foraging
 vectG = frG * ones(1, animal_qty);
 
+% Preallocate a structure array to hold results
+results(numRuns) = struct('plantsf2', [], 'animalsf2', [], 'sVisits_perP', [], 'sVisits_perA', [], 'sVisitsA', [], 'sVisitsP', []);
+
+% Preallocate storage for results
+plantsf_all = zeros(20, numRuns); % 20 plant species, adjust size as needed
+
+sVisitsP_all = zeros(20, numRuns); % 20 plant species
+sVisits_perP_all = zeros(20, numRuns); % 20 plant species
+
+animalsf_all = zeros(50, numRuns); % 50 animal species, adjust size as needed
+sVisitsA_all = zeros(50, numRuns); % 50 animal species
+sVisits_perA_all = zeros(50, numRuns); % 50 animal species
+
 % Simulation Loop
-for i = 1%:numRuns
+
+% Simulation Loop
+for i = 1:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
 
@@ -145,12 +154,57 @@ for i = 1%:numRuns
     [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, network_metadata);
 
     % Store Results
-    plantsf_all(:, i) = plantsf; % Adjust indexing based on actual dimensions
-    animalsf_all(:, i) = animalsf; % Adjust indexing based on actual dimensions
-    sVisits_perP_all(:, i) = sVisits_perP; % Adjust indexing based on actual dimensions
-    sVisits_perA_all(:, i) = sVisits_perA;
-    sVisitsA_all(:, i) = sVisitsA; % Adjust indexing based on actual dimensions
-    sVisitsP_all(:, i) = sVisitsP;
+    % Store Results in the structure
+    results(i).plantsf2 = plantsf2; 
+    results(i).animalsf2 = animalsf2; 
+    results(i).sVisits_perP = sVisits_perP; 
+    results(i).sVisits_perA = sVisits_perA; 
+    results(i).sVisitsA = sVisitsA; 
+    results(i).sVisitsP = sVisitsP; 
+    plantsf_all(:, i) = plantsf; % Store plantsf for current run
+    animalsf_all(:, i) = animalsf; % Store animalsf for current run
+end
+   
+% Extracting all plantsf2 (after removed) and plantsf (before removed) results for analysis
+plantsf2_all = zeros(size(results(1).plantsf2, 1), numRuns); % Preallocate based on size of plantsf2
+
+for i = 1:numRuns
+    plantsf2_all(:, i) = results(i).plantsf2; % Store each run's plantsf2 in the matrix
+end
+
+% Extracting all animals f2 (after removed) and animalsf (before gg removed) results for analysis
+animalsf2_all = zeros(size(results(1).animalsf2, 1), numRuns); % Preallocate based on size of plantsf2
+
+for i = 1:numRuns
+    animalsf2_all(:, i) = results(i).animalsf2; % Store each run's plantsf2 in the matrix
+end
+
+
+%Extracting all results for visitation variables
+for i = 1:numRuns
+    sVisitsP_all(:, i) = results(i).sVisitsP; % Store each run's sVisitsP in the matrix
+end
+
+for i = 1:numRuns
+    sVisits_perP_all(:, i) = results(i).sVisits_perP; % Store each run's sVisitsP in the matrix
+end
+
+
+for i = 1:numRuns
+    sVisitsA_all(:, i) = results(i).sVisitsA; % Store each run's sVisitsP in the matrix
+end
+
+for i = 1:numRuns
+    sVisits_perA_all(:, i) = results(i).sVisits_perA; % Store each run's sVisitsP in the matrix
+end
+
+
+    %plantsf_all(:, i) = plantsf2; % Adjust indexing based on actual dimensions
+    %animalsf_all(:, i) = animalsf; % Adjust indexing based on actual dimensions
+    %sVisits_perP_all(:, i) = sVisits_perP; % Adjust indexing based on actual dimensions
+    %sVisits_perA_all(:, i) = sVisits_perA;
+    %sVisitsA_all(:, i) = sVisitsA; % Adjust indexing based on actual dimensions
+    %sVisitsP_all(:, i) = sVisitsP;
 
 %rand('seed',sem+r_i);
 %In=load('goatgrass_network_full.csv'); % Already sorted by degree
@@ -215,23 +269,27 @@ for i = 1%:numRuns
 %subplot (3,1,3)
 %plot(t,animals)
  %title('Animal Trajectories')
-end
+
 % % Create Tables and Export to CSV
-% plantsf_table = array2table(plantsf_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-% animalsf_table = array2table(animalsf_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-% sVisits_perP_table = array2table(sVisits_perP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-% sVisits_perA_table = array2table(sVisits_perA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-% sVisitsA_table = array2table(sVisitsA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-% sVisitsP_table = array2table(sVisitsP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+plantsf2_table = array2table(plantsf2_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+ animalsf2_table = array2table(animalsf2_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+ plantsf_table = array2table(plantsf_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+ animalsf_table = array2table(animalsf_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+ sVisits_perP_table = array2table(sVisits_perP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+sVisits_perA_table = array2table(sVisits_perA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+sVisitsA_table = array2table(sVisitsA_all', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
+sVisitsP_table = array2table(sVisitsP_all', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
 % 
 % % Save tables as CSV files
 % % update name with either GG or noGG
-% writetable(plantsf_table, 'plantsf_all_runs.GG.csv');
-% writetable(animalsf_table, 'animalsf_all_runs.GG.csv');
-% writetable(sVisits_perP_table, 'sVisits_perP_all_runs.GG.csv');
-% writetable(sVisits_perA_table, 'sVisits_perA_all_runs.GG.csv');
-% writetable(sVisitsA_table, 'sVisitsA_all_runs.GG.csv');
-% writetable(sVisitsP_table, 'sVisitsP_all_runs.GG.csv');
+ writetable(plantsf2_table, 'plantsf2_all_runs.GGremoved.csv');
+writetable(animalsf2_table, 'animalsf2_all_runs.GGremoved.csv');
+ writetable(plantsf_table, 'plantsf_all_runs.beforeGGremoved.csv');
+writetable(animalsf_table, 'animalsf_all_runs.beforeGGremoved.csv');
+writetable(sVisits_perP_table, 'sVisits_perP_all_runs.GGremoved.csv');
+writetable(sVisits_perA_table, 'sVisits_perA_all_runs.GGremoved.csv');
+writetable(sVisitsA_table, 'sVisitsA_all_runs.GGremoved.csv');
+writetable(sVisitsP_table, 'sVisitsP_all_runs.GGremoved.csv');
 
 %to check order 
 %if i == 1
