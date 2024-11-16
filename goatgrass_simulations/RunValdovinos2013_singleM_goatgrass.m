@@ -114,7 +114,7 @@ r_i=1;
 frG=1;
 muAP=3;
 sem=0;
-numRuns = 500; % Number of simulation runs
+numRuns = 5; % Number of simulation runs
 
 
 % Load the data
@@ -139,8 +139,6 @@ sVisits_perP_all = zeros(20, numRuns); % 20 plant species
 animalsf_all = zeros(50, numRuns); % 50 animal species, adjust size as needed
 sVisitsA_all = zeros(50, numRuns); % 50 animal species
 sVisits_perA_all = zeros(50, numRuns); % 50 animal species
-
-% Simulation Loop
 
 % Simulation Loop
 for i = 1:numRuns
