@@ -106,8 +106,7 @@
 
 %9-24-24 update: ran simulation with goatgrass removed scenario
 
-%11-16-24: organized code so that you can run both with GG and GG removed
-%simulations at the same time without having to rename 
+%11-16-24:
 
 %Global Variables & Setup
 global J_pattern network_metadata
@@ -200,15 +199,15 @@ end
 
 
 for i = 1:numRuns
-    sVisitsA_all_WithGoatgrass(:, i) = resultsWithGoatgrass(i).sVisitsA; % Store each run's sVisitsP in the matrix
+    sVisitsA_all_RGoatgrass(:, i) = resultsRemovedGoatgrass(i).sVisitsA; % Store each run's sVisitsP in the matrix
 end
 
 for i = 1:numRuns
-    sVisits_perA_all_WithGoatgrass(:, i) = resultsWithGoatgrass(i).sVisits_perA; % Store each run's sVisitsP in the matrix
+    sVisits_perA_all_RemovedGoatgrass(:, i) = resultsRemovedGoatgrass(i).sVisits_perA; % Store each run's sVisitsP in the matrix
 end
 
 for i = 1:numRuns
-    meansigma_perP_all_WithGoatgrass(:, i) = resultsWithGoatgrass(i).meansigma_perP; % Store each run's meansigma_perP in the matrix
+    meansigma_perP_all_RemovedGoatgrass(:, i) = resultsRemovedGoatgrass(i).meansigma_perP; % Store each run's meansigma_perP in the matrix
 end
 
 
@@ -282,17 +281,6 @@ for i = 1:numRuns
     meansigma_perP_all_RemovedGoatgrass(:, i) = resultsRemovedGoatgrass(i).meansigma_perP; % Store each run's meansigma_perP in the matrix
 end
 % % Create Tables and Export to CSV
-
- plantsf_table_WithGoatgrass = array2table(plantsf_all_WithGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
- animalsf_table_WithGoatgrass = array2table(animalsf_all_WithGoatgrass', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
- sVisits_perP_table_WithGoatgrass = array2table(sVisits_perP_all_WithGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-sVisits_perA_table_WithGoatgrass = array2table(sVisits_perA_all_WithGoatgrass', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-sVisitsA_table_WithGoatgrass = array2table(sVisitsA_all_WithGoatgrass', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
-sVisitsP_table_WithGoatgrass = array2table(sVisitsP_all_WithGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-nectarf_table_WithGoatgrass = array2table(nectarf_all_WithGoatgrass', 'VariableNames', strcat('Nectar_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-meansigma_perP_table_WithGoatgrass = array2table(meansigma_perP_all_WithGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-
-
 plantsf2_table_RemovedGoatgrass = array2table(plantsf2_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
  animalsf2_table_RemovedGoatgrass = array2table(animalsf2_all_RemovedGoatgrass', 'VariableNames', strcat('Animal_', arrayfun(@num2str, 1:50, 'UniformOutput', false)));
  plantsf_table_RemovedGoatgrass = array2table(plantsf_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
@@ -306,28 +294,18 @@ nectarf_table_RemovedGoatgrass = array2table(nectarf_all_RemovedGoatgrass', 'Var
 meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
 % 
 % % Save tables as CSV files
-% writetable(plantsf_table_WithGoatgrass, 'plantsf_all_runs.withGG.csv');
-%writetable(animalsf_table_WithGoatgrass, 'animalsf_all_runs.withGG.csv');
-%writetable(sVisits_perP_table_WithGoatgrass, 'sVisits_perP_all_runs.withGG.csv');
-%writetable(sVisits_perA_table_WithGoatgrass, 'sVisits_perA_all_runs.withGG.csv');
-%writetable(sVisitsA_table_WithGoatgrass, 'sVisitsA_all_runs.withGG.csv');
-%writetable(sVisitsP_table_WithGoatgrass, 'sVisitsP_all_runs.withGG.csv');
-%writetable(meansigma_perP_table_WithGoatgrass, 'meansigma_perP_all_runs.withGG.csv');
-%writetable(nectarf_table_WithGoatgrass, 'nectarf_all_runs.withGG.csv');
-
-
-
- %writetable(plantsf2_table_RemovedGoatgrass, 'plantsf2_all_runs.GGremoved.csv');
-%writetable(animalsf2_table_RemovedGoatgrass, 'animalsf2_all_runs.GGremoved.csv');
-% writetable(plantsf_table_RemovedGoatgrass, 'plantsf_all_runs.beforeGGremoved.csv');
-%writetable(animalsf_table_RemovedGoatgrass, 'animalsf_all_runs.beforeGGremoved.csv');
-%writetable(sVisits_perP_table_RemovedGoatgrass, 'sVisits_perP_all_runs.GGremoved.csv');
-%writetable(sVisits_perA_table_RemovedGoatgrass, 'sVisits_perA_all_runs.GGremoved.csv');
-%writetable(sVisitsA_table_RemovedGoatgrass, 'sVisitsA_all_runs.GGremoved.csv');
-%writetable(sVisitsP_table_RemovedGoatgrass, 'sVisitsP_all_runs.GGremoved.csv');
-%writetable(meansigma_perP_table_RemovedGoatgrass, 'meansigma_perP_all_runs.GGremoved.csv');
-%writetable(nectarf_table_RemovedGoatgrass, 'nectarf_all_runs.GGremoved.csv');
-%writetable(nectarf2_table_RemovedGoatgrass, 'nectarf2_all_runs.GGremoved.csv');
+% % update name with either GG or noGG
+ writetable(plantsf2_table_RemovedGoatgrass, 'plantsf2_all_runs.GGremoved.csv');
+writetable(animalsf2_table_RemovedGoatgrass, 'animalsf2_all_runs.GGremoved.csv');
+ writetable(plantsf_table_RemovedGoatgrass, 'plantsf_all_runs.beforeGGremoved.csv');
+writetable(animalsf_table_RemovedGoatgrass, 'animalsf_all_runs.beforeGGremoved.csv');
+writetable(sVisits_perP_table_RemovedGoatgrass, 'sVisits_perP_all_runs.GGremoved.csv');
+writetable(sVisits_perA_table_RemovedGoatgrass, 'sVisits_perA_all_runs.GGremoved.csv');
+writetable(sVisitsA_table_RemovedGoatgrass, 'sVisitsA_all_runs.GGremoved.csv');
+writetable(sVisitsP_table_RemovedGoatgrass, 'sVisitsP_all_runs.GGremoved.csv');
+writetable(meansigma_perP_table_RemovedGoatgrass, 'meansigma_perP_all_runs.GGremoved.csv');
+writetable(nectarf_table_RemovedGoatgrass, 'nectarf_runs.GGremoved.csv');
+writetable(nectarf2_table_RemovedGoatgrass, 'nectarf2_runs.GGremoved.csv');
 
 %to check order 
 %if i == 1

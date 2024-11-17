@@ -92,7 +92,7 @@ dN(1) = 0;
 %    between any other pair of plant species. This can be easily changed by
 %    changing u_21=u(1)*10 to u_21=u(1)*1.
 
-% u(21) = u(1)*100 ;
+%u_21 =u(1)*100;
 
 %% Now pack the answer
 dx = full([dp; dN; da; dAlpha(nz_pos)]) ;
