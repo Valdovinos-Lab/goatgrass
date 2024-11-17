@@ -154,14 +154,13 @@ sVisitsA_all_WithGoatgrass = zeros(50, numRuns); % 50 animal species
 sVisits_perA_all_WithGoatgrass = zeros(50, numRuns); % 50 animal species
 
 % Simulation Loop With Goatgrass
-% Simulation Loop Goatgrass Removed
 for i = 1:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
 
     [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);   
     % Calculate Metrics
-    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, network_metadata);
+    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, network_metadata);
 
     % Store Results
     % Store Results in the structure
@@ -328,6 +327,41 @@ meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGo
 %writetable(meansigma_perP_table_RemovedGoatgrass, 'meansigma_perP_all_runs.GGremoved.csv');
 %writetable(nectarf_table_RemovedGoatgrass, 'nectarf_all_runs.GGremoved.csv');
 %writetable(nectarf2_table_RemovedGoatgrass, 'nectarf2_all_runs.GGremoved.csv');
+
+%%% To get mean parameter values:
+% Compute mean values of key parameters
+%mu_p_mean = mean(mu_p);  
+%mu_a_mean = mean(mu_a);  
+%c_mean = mean(c);        
+%b_mean = mean(b);        
+%u_mean = mean(u);        
+%Beta_mean = mean(Beta);  
+
+%p_mean = mean(p);  
+%N_mean = mean(N);  
+%a_mean = mean(a);  
+%Alpha_mean = mean(Alpha);  
+
+%seed_produced_mean = mean(seed_produced);  
+%Gamma_mean = mean(Gamma);  
+
+% Display the means
+%disp('Mean values of key parameters:');
+%disp(['mu_p: ', num2str(mu_p_mean)]);
+%disp(['mu_a: ', num2str(mu_a_mean)]);
+%disp(['c: ', num2str(c_mean)]);
+%disp(['b: ', num2str(b_mean)]);
+%disp(['u: ', num2str(u_mean)]);
+%disp(['Beta: ', num2str(Beta_mean)]);
+
+%disp(['p: ', num2str(p_mean)]);
+%disp(['N: ', num2str(N_mean)]);
+%disp(['a: ', num2str(a_mean)]);
+%disp(['Alpha: ', num2str(Alpha_mean)]);
+
+%disp(['Mean seed_produced: ', num2str(seed_produced_mean)]);
+%disp(['Mean Gamma: ', num2str(Gamma_mean)]);
+
 
 %to check order 
 %if i == 1
