@@ -115,7 +115,7 @@ r_i=1;
 frG=1;
 muAP=3;
 sem=0;
-numRuns = 5; % Number of simulation runs
+numRuns = 1; % Number of simulation runs
 
 
 % Load the data
@@ -156,7 +156,7 @@ for i = 1:numRuns
 
     metadata = create_metadata(vectG, In, muAP, i);
 
-    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(metadata);   
+    [plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(metadata);   
     % Calculate Metrics
     [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, metadata);
 
@@ -187,11 +187,11 @@ for i = 1:numRuns
     % Set random seed for reproducibility
     rng(sem + i); % Modern MATLAB function for random seed
 
-    [t, y, plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(vectG, In, muAP);
-    [t2, y2, plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, 0);
+    [plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(metadata);
+    [plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, metadata, 0);
     
     % Calculate Metrics
-    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, network_metadata);
+    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, metadata);
 
     % Store Results in the structure
     resultsRemovedGoatgrass(i).plantsf2 = plantsf2; 

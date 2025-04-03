@@ -1,4 +1,4 @@
-function [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(Alpha,p,a,N,network_metadata)
+function [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA]= calValMechs(Alpha,p,a,N,metadata)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Called by RunEfficiencies.m (i.e., no need to re-run simulations)
@@ -42,9 +42,9 @@ function [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sV
 indRemA=[];
 indRemP=[];
 
-tau     = network_metadata.tau ;
-epsilon = network_metadata.epsilon ;
-b       = full(network_metadata.b) ;
+tau     = metadata.tau ;
+epsilon = metadata.epsilon ;
+b       = full(metadata.b) ;
 
 %% Plants
 % Formula for visits: M_V=diag(p)*Alpha*diag(a.*tau);
