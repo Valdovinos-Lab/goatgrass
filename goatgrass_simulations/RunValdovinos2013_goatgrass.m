@@ -111,12 +111,10 @@
 
 
 % Model Parameters 
-r_i=1;
 frG=1;
 muAP=3;
 sem=0;
 numRuns = 1; % Number of simulation runs
-
 
 % Load the data
 In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
@@ -124,6 +122,10 @@ In = load('goatgrass_network_full.csv'); % Update this if the data source or for
 
 % Initialize J_pattern
 J_pattern = J_zero_pattern(In);
+
+% Which pollinator species are not part of the core network and will be introduced at low abundances
+% after the system equilibrate without them
+indxA=21:animal_qty;
 
 % Which pollinator exhibits adaptive foraging
 vectG = frG * ones(1, animal_qty);
@@ -154,7 +156,7 @@ sVisits_perA_all_WithGoatgrass = zeros(50, numRuns); % 50 animal species
 %% Simulation Loop With Goatgrass
 for i = 1:numRuns
 
-    metadata = create_metadata(vectG, In, muAP, i);
+    metadata = create_metadata(indxA, vectG, In, muAP, i);
 
     [plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(metadata);   
     % Calculate Metrics

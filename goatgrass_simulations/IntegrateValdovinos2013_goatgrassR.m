@@ -23,7 +23,8 @@ function [plantsf2, nectarf2, animalsf2, alphasf2]=IntegrateValdovinos2013_goatg
 tmax=3000;
 %EUp=2e-2;
 %EUa=1e-3;
-[m, n]=size(alphasf);
+
+indxA=metadata.indxA;
 
 %Give initial state (equal to the equilibrium of prior run
 initial_plants=plantsf;
@@ -32,7 +33,10 @@ initial_nectar=nectarf;
 initial_plants(1)=ggPA*plantsf(1);% abundance of goatgrass (equal to zero when removed)
 initial_nectar(1)=0;% reward abundance of goatgrass equal to zero.
 
-initial_animals=animalsf;% mz=0.1 (initial animal densities equal 0.1)
+initial_animals=animalsf;
+initial_animals(indxA)=1.5e-3; % 0.5e-3 higher than the extinction treshold, EUa=1e-3
+
+alphasf(:,indxA)=full(metadata.initial_alpha_indxA);
 initial_alphas=alphasf(metadata.nz_pos);
 
 % Combining all initial variables

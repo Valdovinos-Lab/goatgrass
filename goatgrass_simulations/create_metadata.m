@@ -1,4 +1,4 @@
-function metadata = create_metadata(vectG,In,muAP,i)
+function metadata = create_metadata(indxA,vectG,In,muAP,i)
 
 % Creates structure with parameter values and initial conditions 
 rng(i);
@@ -69,10 +69,16 @@ initial_plants=yzero(1:plant_qty);
 initial_rewards=yzero(plant_qty+1:2*plant_qty);
 
 initial_animals=yzero(2*plant_qty+1:2*plant_qty+animal_qty);
+initial_animals(indxA)=0;
+
 initial_alphas=B;
 
 %Normalization and packing.
 initial_alphas=initial_alphas*diag(sum(initial_alphas).^(-1));
+
+saving_initial_alpha_InvA=initial_alphas(:,indxA);% to use it when invasion starts
+initial_alphas(:,indxA)=0;
+
 initial_alphas=initial_alphas(nz_pos) ;
 
 % Locate zeros in the Jacobian to speed up the integrator
@@ -134,5 +140,7 @@ metadata = struct( 'plant_qty' , plant_qty,...
                              'R0', initial_rewards, ... 
                              'a0', initial_animals, ... 
                              'alphas0', initial_alphas,...
+                             'indxA', indxA,...
+                             'initial_alpha_indxA', saving_initial_alpha_InvA,...
                              'J_pattern', J_pattern) ;
 end

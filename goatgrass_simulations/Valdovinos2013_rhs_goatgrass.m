@@ -31,12 +31,12 @@ G       = metadata.G ;
 g       = metadata.g ;
 phi     = metadata.phi ;
 tau     = metadata.tau ;
-%indxP = metadata.indxP;
+indxA = metadata.indxA;
 
 [p, N, a, Alpha] = unpack(x, metadata ) ;
 %p(indxP)=0;% Keeping non-present species at zero
 %N(indxP)=0;
-%a(indxA)=0;
+a(indxA)=0;
 
 w = readmatrix('w_6_26_24.csv'); 
 
