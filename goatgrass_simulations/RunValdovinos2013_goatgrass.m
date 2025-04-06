@@ -1,8 +1,8 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Developer: Fernanda S. Valdovinos
-% Project: Goatgrass removal (Nelson et al 2024)
+% Project: Goatgrass removal (Nelson et al 2025)
 % Rebecca Nelson run simulations.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Runs the Valdovinos et al's (2013) model for the goatgrass project
 % Modifications specific to the goatgrass project:
 % 1. The adjacency matrix used is the combined network (control + restored)
@@ -27,7 +27,7 @@
 %    This variance chould be changed back to 0.1 if needed/desire. For
 %    example, when needing many replicates of the same type of simulations,
 %    to get means and standard deviations to compare treatments.
-% Another parameter to change to compare different scenarios of competition
+%    Another parameter to change to compare different scenarios of competition
 %    strenghts between Lasthenia and goatgrass is u_21, which I included in
 %    Valdovinos2013_rhs_goatgrass.m (i.e., direclty in the equations). I
 %    should probably polish this parameter choice and move it where all the
@@ -125,7 +125,7 @@ J_pattern = J_zero_pattern(In);
 
 % Which pollinator species are not part of the core network and will be introduced at low abundances
 % after the system equilibrate without them
-indxA=21:animal_qty;
+indxA=[];
 
 % Which pollinator exhibits adaptive foraging
 vectG = frG * ones(1, animal_qty);
@@ -160,7 +160,7 @@ for i = 1:numRuns
 
     [plantsf, nectarf, animalsf, alphasf] = IntegrateValdovinos2013_goatgrass(metadata);   
     % Calculate Metrics
-    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, metadata);
+    [Gamma, seed_produced, M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf, plantsf, animalsf, nectarf, metadata);
 
     % Store Results in the structure
     resultsWithGoatgrass(i).plantsf = plantsf; 
@@ -193,7 +193,7 @@ for i = 1:numRuns
     [plantsf2, nectarf2, animalsf2, alphasf2] = IntegrateValdovinos2013_goatgrassR(plantsf, nectarf, animalsf, alphasf, metadata, 0);
     
     % Calculate Metrics
-    [M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, metadata);
+    [Gamma, seed_produced, M_V, sPolServ_perP, sN_extractj_perA, meansigma_perP, sVisits_perP, sVisitsP, meansigma_perA, sVisits_perA, sVisitsA] = calValMechs(alphasf2, plantsf2, animalsf2, nectarf2, metadata);
 
     % Store Results in the structure
     resultsRemovedGoatgrass(i).plantsf2 = plantsf2; 
@@ -272,47 +272,3 @@ meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGo
 %writetable(meansigma_perP_table_RemovedGoatgrass, 'meansigma_perP_all_runs.GGremoved.csv');
 %writetable(nectarf_table_RemovedGoatgrass, 'nectarf_all_runs.GGremoved.csv');
 %writetable(nectarf2_table_RemovedGoatgrass, 'nectarf2_all_runs.GGremoved.csv');
-
-%%% To get mean parameter values:
-% Compute mean values of key parameters
-%mu_p_mean = mean(mu_p);  
-%mu_a_mean = mean(mu_a);  
-%c_mean = mean(c);        
-%b_mean = mean(b);        
-%u_mean = mean(u);        
-%Beta_mean = mean(Beta);  
-
-%p_mean = mean(p);  
-%N_mean = mean(N);  
-%a_mean = mean(a);  
-%Alpha_mean = mean(Alpha);  
-
-%seed_produced_mean = mean(seed_produced);  
-%Gamma_mean = mean(Gamma);  
-
-% Display the means
-%disp('Mean values of key parameters:');
-%disp(['mu_p: ', num2str(mu_p_mean)]);
-%disp(['mu_a: ', num2str(mu_a_mean)]);
-%disp(['c: ', num2str(c_mean)]);
-%disp(['b: ', num2str(b_mean)]);
-%disp(['u: ', num2str(u_mean)]);
-%disp(['Beta: ', num2str(Beta_mean)]);
-
-%disp(['p: ', num2str(p_mean)]);
-%disp(['N: ', num2str(N_mean)]);
-%disp(['a: ', num2str(a_mean)]);
-%disp(['Alpha: ', num2str(Alpha_mean)]);
-
-%disp(['Mean seed_produced: ', num2str(seed_produced_mean)]);
-%disp(['Mean Gamma: ', num2str(Gamma_mean)]);
-
-
-%to check order 
-%if i == 1
- %   % Inspect initial data to verify species order
-  %  disp('First simulation plants:');
-   % disp(plantsf);
-    %disp('First simulation animals:');
-    %disp(animalsf);
-%end

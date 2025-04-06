@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Developer: Fernanda S. Valdovinos
-% Project: Goatgrass removal (Nelson et al 2024)
+% Project: Goatgrass removal (Nelson et al 2025)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Last Modification 09/11/2024, Davis
 % Adding an input to the function indicating whether the goatgrass is:

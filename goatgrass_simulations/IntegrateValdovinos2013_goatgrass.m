@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Developer: Fernanda S. Valdovinos
-% Project: Goatgrass removal (Nelson et al 2024)
+% Project: Goatgrass removal (Nelson et al 2025)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Modification 11/10/2023, Davis
 % Adaptation of pior code to the specific case of the serpentine
