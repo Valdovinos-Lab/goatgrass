@@ -114,7 +114,7 @@
 frG=1;
 muAP=3;
 sem=0;
-numRuns = 500; % Number of simulation runs
+numRuns = 1; % Number of simulation runs
 
 % Load the data
 In = load('goatgrass_network_full.csv'); % Update this if the data source or format changes
@@ -261,8 +261,8 @@ sVisitsP_table_RemovedGoatgrass = array2table(sVisitsP_all_RemovedGoatgrass', 'V
 nectarf2_table_RemovedGoatgrass = array2table(nectarf2_all_RemovedGoatgrass', 'VariableNames', strcat('Nectar_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
 nectarf_table_RemovedGoatgrass = array2table(nectarf_all_RemovedGoatgrass', 'VariableNames', strcat('Nectar_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
 meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-Gamma_table_RemovedGoatgrass = array2table(Gamma_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
-seeds_produced_table_RemovedGoatgrass = array2table(seeds_produced_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
+meansigma_perP_table_RemovedGoatgrass = array2table(meansigma_perP_all_RemovedGoatgrass', 'VariableNames', strcat('Plant_', arrayfun(@num2str, 1:20, 'UniformOutput', false)));
 
 % % Save tables as CSV files
 % writetable(plantsf_table_WithGoatgrass, 'plantsf_all_runs.withGG.csv');
@@ -284,9 +284,3 @@ seeds_produced_table_RemovedGoatgrass = array2table(seeds_produced_RemovedGoatgr
 %writetable(meansigma_perP_table_RemovedGoatgrass, 'meansigma_perP_all_runs.GGremoved.csv');
 %writetable(nectarf_table_RemovedGoatgrass, 'nectarf_all_runs.GGremoved.csv');
 %writetable(nectarf2_table_RemovedGoatgrass, 'nectarf2_all_runs.GGremoved.csv');
-
-%writetable(Gamma_table_WithGoatgrass, 'Gamma_all_runs.withGG.csv');
-%writetable(Gamma_table_RemovedGoatgrass, 'Gamma_all_runs.GGremoved.csv');
-
-%writetable(seeds_produced_table_WithGoatgrass, 'seeds_produced_all_runs.withGG.csv');
-%writetable(seeds_produced_table_RemovedGoatgrass, 'seeds_produced_all_runs.GGremoved.csv');
